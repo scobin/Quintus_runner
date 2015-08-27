@@ -19,8 +19,9 @@ Quintus.ActionPlatformerBox = function(Q) {
 					vx: -600 + 200 * Math.random(),
 					vy: 0,
 					ay: 0,
-					speed: 500,
-					theta: (300 * Math.random() + 200) * (Math.random() < 0.5 ? 1 : -1)
+					speed: 100,
+					theta: (300 * Math.random() + 200) * (Math.random() < 0.5 ? 1 : -1),
+					isHit: 0
 				});
 
 			this.on("hit");
@@ -28,7 +29,6 @@ Quintus.ActionPlatformerBox = function(Q) {
 
 		step: function(dt) {
 			this.p.x += this.p.vx * dt;
-
 
 			this.p.vy += this.p.ay * dt;
 			this.p.y += this.p.vy * dt;
@@ -47,10 +47,15 @@ Quintus.ActionPlatformerBox = function(Q) {
 			this.p.ay = 400;
 			this.p.vy = -300;
 			this.p.opacity = 0.5;
-			if(collision.obj.isA("Player")) { 
-				if (collision.obj.p.vx <= 0) {
+			if(collision.obj.isA("Player") && this.p.isHit == 0) {
+				this.p.isHit = 1;
+				
+				if (collision.obj.p.speed > 500) {
 					Q.stageScene("endGame",1, { label: "GAME OVER!" }); 
 				    collision.obj.destroy();
+				} else {
+					collision.obj.p.speed -= this.p.speed;
+					collision.obj.p.vx = collision.obj.p.speed;
 				}
 				
 			}

@@ -54,7 +54,7 @@ Q.scene('hud',function(stage) {
   }));
 
   var speed = container.insert(new Q.UI.Text({x:50, y: 50,
-    label: "Speed: " + stage.options.vx, color: "white" }));
+    label: "Speed: " + stage.options.speed, color: "white" }));
 
   var distance = container.insert(new Q.UI.Text({x:50, y: 20,
     label: "Distance: " + stage.options.distance, color: "white" }));

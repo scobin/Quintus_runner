@@ -24,8 +24,13 @@ Quintus.ActionPlatformerPlayer = function(Q) {
 
     step: function(dt) {
       // this.p.vx += (this.p.speed - this.p.vx)/4;
+      if (this.p.speed > this.p.vx) {
+        this.p.vx = this.p.speed;
+      }
       this.p.vx ++;
-      this.p.distance ++;
+      this.p.speed = this.p.vx;
+
+      this.p.distance = Math.floor(this.p.x) - 40;
       Q.stageScene('hud', 3, this.p);
 
       if(this.p.y > 555) {

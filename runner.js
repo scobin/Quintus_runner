@@ -3,6 +3,7 @@ window.addEventListener("load",function() {
 var Q = window.Q = Quintus()
         .include("Sprites, Scenes, Input, 2D, Anim, Touch, UI")
         .include("ActionPlatformerPlayer, ActionPlatformerBox")
+        .include("ActionPlatformerAIPlayer")
         .setup({
           width: 800,
           height: 600,
@@ -49,6 +50,7 @@ Q.scene("level1",function(stage) {
   stage.insert(new Q.BoxThrower());
 
   stage.insert(new Q.Player());
+  stage.insert(new Q.AIPlayer());
   stage.add("viewport");
 
 });

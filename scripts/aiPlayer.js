@@ -1,5 +1,5 @@
-Quintus.ActionPlatformerPlayer = function(Q) {
-  Q.Sprite.extend("Player",{
+Quintus.ActionPlatformerAIPlayer = function(Q) {
+  Q.Sprite.extend("AIPlayer",{
 
     init: function(p) {
 
@@ -7,14 +7,16 @@ Quintus.ActionPlatformerPlayer = function(Q) {
         sheet: "player",
         sprite: "player",
         collisionMask: 1, 
-        x: 40,
+        x: 100,
         y: 555,
         standingPoints: [ [ -16, 44], [ -23, 35 ], [-23,-48], [23,-48], [23, 35 ], [ 16, 44 ]],
         duckingPoints : [ [ -16, 44], [ -23, 35 ], [-23,-10], [23,-10], [23, 35 ], [ 16, 44 ]],
         speed: 0,
         vx:0,
-        distance:0,
-        jump: -700
+        // distance:0,
+        jump: -700,
+        opacity: 0.4,
+        action: 1
       });
 
       this.p.points = this.p.standingPoints;
@@ -23,15 +25,8 @@ Quintus.ActionPlatformerPlayer = function(Q) {
     },
 
     step: function(dt) {
-      // this.p.vx += (this.p.speed - this.p.vx)/4;
-      if (this.p.speed > this.p.vx) {
-        this.p.vx = this.p.speed;
-      }
-      this.p.vx ++;
+      this.p.vx += 1;
       this.p.speed = this.p.vx;
-
-      this.p.distance = Math.floor(this.p.x) - 40;
-      Q.stageScene('hud', 3, this.p);
 
       if(this.p.y > 555) {
         this.p.y = 555;
@@ -41,13 +36,13 @@ Quintus.ActionPlatformerPlayer = function(Q) {
         this.p.landed = 0;
       }
 
-      if(Q.inputs['up'] && this.p.landed > 0) {
+      if(this.p.action == 2 && this.p.landed > 0) {
         this.p.vy = this.p.jump;
       } 
 
-      this.p.points = this.p.standingPoints;
+      // this.p.points = this.p.standingPoints;
       if(this.p.landed) {
-        if(Q.inputs['down']) { 
+        if(this.p.action == 0) { 
           this.play("duck_right");
           this.p.points = this.p.duckingPoints;
         } else {
@@ -56,8 +51,22 @@ Quintus.ActionPlatformerPlayer = function(Q) {
       } else {
         this.play("jump_right");
       }
-      
-      this.stage.viewport.centerOn(this.p.x + 300, 400 );
+
+      var player = Q("Player").first();
+      if (player) {
+        if (player.p.x + 60 > this.p.x) {
+          this.p.vx += 5;
+        } else if (player.p.x + 200 < this.p.x) {
+          this.p.vx --;
+        }
+        
+        if (player.p.x < (this.p.x + 30) || player.p.x > (this.p.x - 30)) {
+          this.p.type = Q.SPRITE_NONE;
+        } else {
+          this.p.type = 1;
+        }
+      }
+      // this.stage.viewport.centerOn(this.p.x + 300, 400 );
 
     }
   });

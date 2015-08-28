@@ -37,6 +37,22 @@ Quintus.ActionPlatformerBox = function(Q) {
 			}
 
 			if(this.p.y > 800) { this.destroy(); }
+			
+			// ai
+			var aiPlayer = Q("AIPlayer").first();
+			aiPlayer.p.action = 1;
+			if (this.p.x - aiPlayer.p.x < 300) {
+				res = Math.random() > 1 ? 1 : 0;
+				if (res == 0) {
+					if (this.p.y < 520) {
+						aiPlayer.p.action = 0;
+					} else {
+						aiPlayer.p.action = 2;
+					}
+				} else {
+					aiPlayer.p.action = Math.floor(Math.random() * 3);
+				}
+			}
 
 		},
 

@@ -3,7 +3,12 @@ window.addEventListener("load",function() {
 var Q = window.Q = Quintus()
         .include("Sprites, Scenes, Input, 2D, Anim, Touch, UI")
         .include("ActionPlatformerPlayer, ActionPlatformerBox")
-        .setup({ maximize: true })
+        .setup({
+          width: 800,
+          height: 600,
+          scaleToFit: true
+        })
+        //.setup({ maximize: true })
         .controls().touch()
 
 var SPRITE_BOX = 1;
